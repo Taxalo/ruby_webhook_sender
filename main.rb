@@ -33,4 +33,8 @@ post_info = webhook_handler.post webhook do |req|
   req.body = { content: file_content }.to_json
 end
 
-puts "POST code (2xx = OK): #{post_info.status}"
+if post_info.is_a? Faraday::Response
+  puts "Success: #{post_info.success? ? :YES : :NO}"
+  puts "POST code: #{post_info.status}"
+end
+
