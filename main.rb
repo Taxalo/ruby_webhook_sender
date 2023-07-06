@@ -11,15 +11,17 @@ webhook_handler = Faraday.new webhook do |f|
   f.request :json
 end
 
-
 webhook_info = webhook_handler.get ""
-puts "Webhook info:
+
+if webhook_info.is_a? Faraday::Response
+  puts "Webhook info:
 
 Webhook name: #{webhook_info.body['name']}
 Creator name: #{webhook_info.body['user']['display_name']}
 Guild ID: #{webhook_info.body["guild_id"]}
 Channel ID: #{webhook_info.body["channel_id"]}
-     "
+       "
+end
 
 File.new file_path, "w" unless File.exist? file_path
 
@@ -37,4 +39,3 @@ if post_info.is_a? Faraday::Response
   puts "Success: #{post_info.success? ? :YES : :NO}"
   puts "POST code: #{post_info.status}"
 end
-
